@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ProxyVerse Global Monitor</title>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+
+<style>
+
+body{
+background:#000;
+color:#00ff9c;
+font-family:Courier New, monospace;
+margin:0;
+overflow:hidden;
+}
+
+header{
+text-align:center;
+padding:10px;
+border-bottom:2px solid #00ff9c;
+}
+
+.container{
+display:grid;
+grid-template-columns:70% 30%;
+height:92vh;
+}
+
+#map{
+height:100%;
+}
+
+.sidepanel{
+border-left:2px solid #00ff9c;
+padding:15px;
+overflow:auto;
+}
+
+.box{
+border:1px solid #00ff9c;
+padding:10px;
+margin-bottom:15px;
+}
+
+.log{
+background:black;
+height:200px;
+overflow:auto;
+padding:10px;
+border:1px solid #00ff9c;
+font-size:13px;
+}
+
+button{
+background:#00ff9c;
+border:none;
+padding:8px 15px;
+cursor:pointer;
+}
+
+button:hover{
+background:#00cc7a;
+}
+
+.radar{
+width:200px;
+height:200px;
+border:2px solid #00ff9c;
+border-radius:50%;
+position:relative;
+margin:auto;
+}
+
+.radar::after{
+content:'';
+position:absolute;
+width:2px;
+height:100%;
+background:#00ff9c;
+left:50%;
+top:0;
+transform-origin:bottom;
+animation:spin 4s linear infinite;
+}
+
+@keyframes spin{
+0%{transform:rotate(0deg);}
+100%{transform:rotate(360deg);}
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>PROXYVERSE GLOBAL INTELLIGENCE MONITOR</h1>
+<p>Cyber Network Surveillance Interface</p>
+</header>
+
+<div class="container">
+
+<div id="map"></div>
+
+<div class="sidepanel">
+
+<div class="box">
+<h3>System Status</h3>
+<p>Network: ONLINE</p>
+<p>AI Core: ALTRON ACTIVE</p>
+<p>Security Layer: OMEGA PROTOCOL</p>
+</div>
+
+<div class="box">
+<h3>Radar Scanner</h3>
+<div class="radar"></div>
+</div>
+
+<div class="box">
+<h3>Global Nodes</h3>
+<ul>
+<li>Indonesia Node</li>
+<li>Middle East Node</li>
+<li>Europe Node</li>
+<li>USA Node</li>
+</ul>
+</div>
+
+<div class="box">
+<h3>Activity Log</h3>
+<div class="log" id="log">
+> Booting ProxyVerse system...<br>
+> AI ALTRON online...<br>
+> Global network connected...<br>
+</div>
+
+<br>
+<button onclick="scan()">Run Global Scan</button>
+
+</div>
+
+</div>
+
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+
+var map = L.map('map').setView([10,0],2);
+
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{
+maxZoom:19
+}).addTo(map);
+
+var nodes=[
+["Indonesia Node",-6.2,106.8],
+["Middle East Node",32,35],
+["Europe Node",48.8,2.3],
+["USA Node",38.9,-77]
+];
+
+var markers=[];
+
+nodes.forEach(function(n){
+let m=L.marker([n[1],n[2]])
+.addTo(map)
+.bindPopup(n[0]+"<br>STATUS: ACTIVE");
+markers.push(m);
+});
+
+var connections=[
+[[-6.2,106.8],[32,35]],
+[[32,35],[48.8,2.3]],
+[[48.8,2.3],[38.9,-77]]
+];
+
+connections.forEach(function(c){
+L.polyline(c,{color:'#00ff9c'}).addTo(map);
+});
+
+function scan(){
+let log=document.getElementById("log");
+log.innerHTML+="> Running global scan...<br>";
+log.innerHTML+="> Nodes detected: "+nodes.length+"<br>";
+}
+
+setInterval(function(){
+let log=document.getElementById("log");
+log.innerHTML+="> Network heartbeat OK<br>";
+log.scrollTop=log.scrollHeight;
+},5000);
+
+</script>
+
+</body>
+</html>
